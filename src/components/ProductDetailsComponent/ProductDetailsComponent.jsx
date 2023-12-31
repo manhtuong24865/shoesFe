@@ -14,6 +14,7 @@ import LoadingComponent from "../LoadingComponent/LoadingComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addOrderProduct } from "../../redux/slice/OderSlice";
+import { convertPrice } from '../../utils'
 
 
 
