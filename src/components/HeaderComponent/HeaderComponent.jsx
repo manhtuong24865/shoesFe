@@ -65,13 +65,17 @@ const HeaderComponent = ({ isHiddenMenu = false }) => {
     const [userName, setUserName] = useState('')
     const [typeProducts, setTypeProducts] = useState([])
     const [search, setSearch] = useState('')
+    const [isOpenPopup, setIsOpenPopup] = useState(false)
     const order = useSelector((state) => state.order)
+    const [pending, setPending] = useState(false)
     const handleNavigateLogin = () => {
         navigate('sign-in')
     }
     const handleLogout = async () => {
+        setPending(true)
         await UserServices.logoutUser()
         dispatch(resetUser())
+        setPending(false)
 
     }
 
@@ -86,19 +90,41 @@ const HeaderComponent = ({ isHiddenMenu = false }) => {
     //     fetchAllTypeProduct()
     // }, [])
     useEffect(() => {
+        setPending(true)
         setUserName(user?.name)
+        setPending(false)
     }, [user?.name])
 
     const content = (
         <div>
-            <WrapperContentPopup onClick={handleLogout}>Đăng Xuất</WrapperContentPopup>
-            <WrapperContentPopup onClick={() => navigate('/profile-user')}>Thông Tin Người Dùng</WrapperContentPopup>
-            {user?.isAdmin && (
-                <WrapperContentPopup onClick={() => navigate('/system/admin')}>Quản Lý Hệ Thống</WrapperContentPopup>
-            )}
 
+            <WrapperContentPopup onClick={() => handleClickNavigate('profile')}>Thông Tin Người Dùng</WrapperContentPopup>
+            {user?.isAdmin && (
+                <WrapperContentPopup onClick={() => handleClickNavigate('admin')}>Quản Lý Hệ Thống</WrapperContentPopup>
+            )}
+            <WrapperContentPopup onClick={() => handleClickNavigate(`my-order`)}>Đơn hàng của tôi</WrapperContentPopup>
+            <WrapperContentPopup onClick={() => handleClickNavigate()}>Đăng Xuất</WrapperContentPopup>
         </div>
     );
+
+
+    const handleClickNavigate = (type) => {
+        if (type === 'profile') {
+            navigate('/profile-user')
+        } else if (type === 'admin') {
+            navigate('/system/admin')
+        } else if (type === 'my-order') {
+            navigate('/my-order', {
+                state: {
+                    id: user?.id,
+                    token: user?.access_token
+                }
+            })
+        } else {
+            handleLogout()
+        }
+        setIsOpenPopup(false)
+    }
 
     const onSearch = (e) => {
         setSearch(e.target.value)
@@ -125,20 +151,21 @@ const HeaderComponent = ({ isHiddenMenu = false }) => {
 
 
                             <div style={{ display: 'flex', cursor: 'pointer' }}>
-                                <i className="fa-solid fa-user"></i>
-                                {user?.access_token ? (
-                                    <>
-                                        <Popover content={content} trigger="click">
-                                            <WapperTextContactHeader>{userName?.length ? userName : user?.email}</WapperTextContactHeader>
+                                <LoadingComponent isPending={pending}>
+                                    <i className="fa-solid fa-user"></i>
+                                    {user?.access_token ? (
+                                        <>
+                                            <Popover content={content} trigger="click" open={isOpenPopup}>
+                                                <WapperTextContactHeader onClick={() => setIsOpenPopup((prev) => !prev)}>{userName?.length ? userName : user?.email}</WapperTextContactHeader>
 
-                                        </Popover>
-                                    </>
-                                ) : (
-                                    <div style={{ cursor: 'pointer' }} onClick={handleNavigateLogin}>
-                                        <WapperTextContactHeader>Tài Khoản</WapperTextContactHeader>
-                                    </div>
-                                )}
-                                {/* <WapperTextContactHeader>Tài Khoản</WapperTextContactHeader> */}
+                                            </Popover>
+                                        </>
+                                    ) : (
+                                        <div style={{ cursor: 'pointer' }} onClick={handleNavigateLogin}>
+                                            <WapperTextContactHeader>Tài Khoản</WapperTextContactHeader>
+                                        </div>
+                                    )}
+                                </LoadingComponent>
                             </div>
                         </WapperContactHeader>
                     </Col>

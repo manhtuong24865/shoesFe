@@ -86,7 +86,7 @@ const AdminUser = () => {
 
 
     const getAllUser = async () => {
-        const res = await UserService.getAllUser()
+        const res = await UserService.getAllUser(user?.access_token)
         return res
     }
     const { data: dataUpdated, isPending: isPendingUpdated, isSuccess: isSuccessUpdated, isError: isErrorUpdated } = mutationUpdate
@@ -330,16 +330,16 @@ const AdminUser = () => {
     }
 
 
-    const handleOnchangeAvatarDetails = async ({ fileList }) => {
-        const file = fileList[0]
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        setStateUserDetails({
-            ...stateUserDetails,
-            image: file.preview
-        })
-    }
+    // const handleOnchangeAvatarDetails = async ({ fileList }) => {
+    //     const file = fileList[0]
+    //     if (!file.url && !file.preview) {
+    //         file.preview = await getBase64(file.originFileObj);
+    //     }
+    //     setStateUserDetails({
+    //         ...stateUserDetails,
+    //         image: file.preview
+    //     })
+    // }
 
 
 

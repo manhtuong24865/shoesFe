@@ -23,8 +23,11 @@ const MyOderPage = () => {
         return res.data
     }
 
-    const queryOrder = useQuery({ queryKey: ['orders'], queryFn: fetchMyOrder, config: { enabled: state?.id && state?.token } }
+    const queryOrder = useQuery({ queryKey: ['orders'], queryFn: fetchMyOrder },
+        { enabled: state?.id && state?.token }
     )
+
+
     const { isPending, data } = queryOrder
     let dataKeys = Object.keys(data || {})
     console.log('data', data)

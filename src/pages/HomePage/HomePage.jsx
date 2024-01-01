@@ -116,7 +116,7 @@ const HomePage = () => {
                     </div> */}
                     <div style={{ textAlign: 'center', marginTop: '25px' }}>
 
-                        <TitleTextNew style={{ fontWeight: 'bolder' }}>THƯƠNG HIỆU</TitleTextNew>
+                        <TitleTextNew >THƯƠNG HIỆU</TitleTextNew>
 
                     </div>
                     <div style={{ padding: '50px' }}>

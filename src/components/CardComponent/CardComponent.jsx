@@ -2,6 +2,7 @@ import React from "react";
 import { Col, Row } from "antd"
 import { StyleNameProduct, WrapperCardStyle, WrapperPriceSale, WrapperPriceText, WrapperReportText } from "./style";
 import { useNavigate } from "react-router-dom";
+import { convertPrice } from "../../utils";
 const CardComponent = (props) => {
     const { countInStock, description, image, name, price, type, id } = props
     const navigate = useNavigate()
@@ -32,7 +33,7 @@ const CardComponent = (props) => {
 
                     </WrapperReportText> */}
                     <WrapperPriceText>
-                        {price?.toLocaleString()} <span style={{ textDecoration: 'underline', fontWeight: '400' }}>đ</span>
+                        {convertPrice(price)}
                     </WrapperPriceText>
                 </WrapperCardStyle>
             </Col>

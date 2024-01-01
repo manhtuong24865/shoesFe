@@ -23,25 +23,17 @@ const AdminProduct = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
-    const user = useSelector((state) => state.user)
-    const [stateProduct, setStateProduct] = useState({
+    const user = useSelector((state) => state?.user)
+    const inittial = () => ({
         name: '',
         price: '',
         description: '',
         image: '',
         type: '',
         countInStock: '',
-
     })
-    const [stateProductDetails, setStateProductDetails] = useState({
-        name: '',
-        price: '',
-        description: '',
-        image: '',
-        type: '',
-        countInStock: '',
-
-    })
+    const [stateProduct, setStateProduct] = useState(inittial())
+    const [stateProductDetails, setStateProductDetails] = useState(inittial())
 
 
     const [form] = Form.useForm();
@@ -114,7 +106,6 @@ const AdminProduct = () => {
         return res
     }
     const { data, isPending, isSuccess, isError } = mutation
-    console.log('data', data)
     const { data: dataUpdated, isPending: isPendingUpdated, isSuccess: isSuccessUpdated, isError: isErrorUpdated } = mutationUpdate
     const { data: dataDeleted, isPending: isPendingDeleted, isSuccess: isSuccessDeleted, isError: isErrorDeleted } = mutationDelete
     const { data: dataDeletedMany, isPending: isPendingDeletedMany, isSuccess: isSuccessDeletedMany, isError: isErrorDeletedMany } = mutationDeleteMany
@@ -141,8 +132,14 @@ const AdminProduct = () => {
     }
 
     useEffect(() => {
-        form.setFieldsValue(stateProductDetails)
-    }, [form, stateProductDetails])
+        if (!isModalOpen) {
+            form.setFieldsValue(stateProductDetails)
+        } else {
+            form.setFieldsValue(inittial())
+        }
+    }, [form, stateProductDetails, isModalOpen])
+
+
 
 
     useEffect(() => {
@@ -376,7 +373,6 @@ const AdminProduct = () => {
 
 
     const onFinish = () => {
-        console.log('finish', stateProduct)
         mutation.mutate(stateProduct, {
             onSettled: () => {
                 queryProduct.refetch()
@@ -472,18 +468,6 @@ const AdminProduct = () => {
                             rules={[{ required: true, message: 'Please input your type!' }]}
                         >
                             <InputComponent value={stateProduct.type} onChange={handleOnchange} name="type" />
-                            <Select
-                                name="type"
-                                // defaultValue="lucy"
-                                // style={{ width: 120 }}
-                                // onChange={handleChange}
-                                options={[
-                                    { value: 'jack', label: 'Jack' },
-                                    { value: 'lucy', label: 'Lucy' },
-                                    { value: 'Yiminghe', label: 'yiminghe' },
-                                    { value: 'disabled', label: 'Disabled', disabled: true },
-                                ]}
-                            />
                         </Form.Item>
                         <Form.Item
                             label="Count inStock"
@@ -618,7 +602,7 @@ const AdminProduct = () => {
 
                         <Form.Item wrapperCol={{ offset: 20, span: 16 }}>
                             <Button type="primary" htmlType="submit">
-                                Apply
+                                Submit
                             </Button>
                         </Form.Item>
                     </Form>

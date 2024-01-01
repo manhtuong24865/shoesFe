@@ -14,7 +14,7 @@ import LoadingComponent from "../LoadingComponent/LoadingComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addOrderProduct } from "../../redux/slice/OderSlice";
-import { convertPrice } from '../../utils'
+import { convertPrice } from "../../utils";
 
 
 
@@ -65,7 +65,6 @@ const ProductDetailsComponent = ({ idProduct }) => {
             }))
         }
     }
-    console.log('productDetails', productDetails, user)
     return (
         <>
             <LoadingComponent isPending={isPending}>
@@ -108,7 +107,7 @@ const ProductDetailsComponent = ({ idProduct }) => {
                             </div>
                             <div>
                                 <WrapperStylePriceProduct>
-                                    <WrapperPriceTextProduct>{productDetails?.price}đ</WrapperPriceTextProduct>
+                                    <WrapperPriceTextProduct>{convertPrice(productDetails?.price)}</WrapperPriceTextProduct>
                                     {/* <WrapperPriceSale>1.2000.000đ</WrapperPriceSale> */}
 
                                 </WrapperStylePriceProduct>
