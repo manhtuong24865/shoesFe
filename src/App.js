@@ -1,15 +1,15 @@
+import * as UserServices from "./services/UserServices";
+
 import React, { Fragment, useEffect, useState } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { routes } from './routes'
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+
 import DefalutComponent from './components/DefaultComponent/DefaultComponent'
+import LoadingComponent from "./components/LoadingComponent/LoadingComponent"
 import { isJsonString } from './utils'
 import { jwtDecode } from 'jwt-decode'
-import * as UserServices from "./services/UserServices";
-import { useDispatch, useSelector } from 'react-redux'
+import { routes } from './routes'
 import { updateUser } from './redux/slice/UserSlice'
-import LoadingComponent from "./components/LoadingComponent/LoadingComponent"
-
-
 
 function App() {
   const dispatch = useDispatch();
