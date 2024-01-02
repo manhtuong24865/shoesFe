@@ -21,7 +21,7 @@ const HeaderComponent = ({ isHiddenMenu = false }) => {
     const [menus, setMenus] = useState([
         {
             name: "TRANG CHỦ",
-            path: "",
+            path: "/",
         },
         {
             name: "SẢN PHẨM",

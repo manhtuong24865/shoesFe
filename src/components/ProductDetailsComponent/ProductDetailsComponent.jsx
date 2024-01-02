@@ -53,14 +53,14 @@ const ProductDetailsComponent = ({ idProduct }) => {
         if (!user?.id) {
             Navigate('/sign-in', { state: location?.pathname })
         } else {
-
             dispatch(addOrderProduct({
                 orderItem: {
                     name: productDetails?.name,
                     amount: numProduct,
                     image: productDetails?.image,
                     price: productDetails?.price,
-                    product: productDetails?._id
+                    product: productDetails?._id,
+                    countInStock: productDetails?.countInStock
                 }
             }))
         }
